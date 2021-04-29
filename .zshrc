@@ -1,3 +1,4 @@
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 bindkey -v
 
 export PATH="/usr/local/sbin:$PATH"
@@ -99,5 +100,4 @@ source /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.z
 source /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc
 
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
