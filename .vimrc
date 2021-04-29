@@ -1,6 +1,6 @@
 set shell=zsh
 set hidden
-set spell
+" set spell
 set encoding=UTF-8
 
 filetype off                  " required
@@ -17,70 +17,47 @@ endif
 " - Avoid using standard Vim directory names like 'plugin'
 call plug#begin('~/.vim/plugged')
 
-
-
 set rtp+=/usr/local/opt/fzf
 Plug 'junegunn/fzf.vim'
 
-
 Plug 'morhetz/gruvbox'
+
 Plug 'romainl/vim-cool'
 
-" Plug 'gmarik/Vundle.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'kien/ctrlp.vim'
 Plug 'tpope/vim-repeat'
 Plug 'sjl/gundo.vim'
 Plug 'fs111/pydoc.vim'
-" Plug 'vim-scripts/pep8'
-" Plug 'kevinw/pyflakes-vim'
 Plug 'wincent/Command-T'
-" Plug 'plasticboy/vim-markdown'
 Plug 'Valloric/YouCompleteMe'
+" Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+
 Plug 'scrooloose/syntastic'
 Plug 'altercation/vim-colors-solarized'
 Plug 'Lokaltog/powerline'
-"Plug 'nanotech/jellybeans.vim'
 Plug 'scrooloose/nerdtree'
 Plug 'jmcantrell/vim-virtualenv'
-" Plug 'python'
-" Plug 'elzr/vim-json'
 Plug 'hynek/vim-python-pep8-indent'
+Plug 'python-mode/python-mode'
 Plug 'bling/vim-airline'
-" Plug 'rking/ag.vim'
 Plug 'sheerun/vim-polyglot'
 
-" Plug 'Shougo/vimproc'
-" Plug 'Shougo/vimproc.vim', {
-\ 'build' : {
-\     'windows' : 'tools\\update-dll-mingw',
-\     'cygwin' : 'make -f make_cygwin.mak',
-\     'mac' : 'make',
-\     'linux' : 'make',
-\     'unix' : 'gmake',
-\    },
-\ }
-" Plug 'Shougo/unite.vim'
-
-" Plug 'tpope/vim-commentary'
 Plug 'tomtom/tcomment_vim'
 
-" Plug 'moll/vim-node'
 Plug 'godlygeek/tabular'
-" Plug 'jelera/vim-javascript-syntax'
-" Plug 'surround
 Plug 'scrooloose/nerdcommenter'
 Plug 'maksimr/vim-jsbeautify'
 Plug 'walm/jshint.vim'
 
 Plug 'alvan/vim-closetag'
+Plug 'tpope/vim-surround'
 
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-" Plug 'davidhalter/jedi-vim'
 Plug 'deoplete-plugins/deoplete-jedi'
+" Plug 'davidhalter/jedi-vim'
 Plug 'Integralist/vim-mypy'
-
-" Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 
@@ -98,8 +75,11 @@ let g:deoplete#enable_at_startup = 1
 
 syntax enable
 set background=dark
-" colorscheme jellybeans
 colorscheme gruvbox
+
+" NerdTree
+let g:NERDTreeWinPos = "right"
+let NERDTreeQuitOnOpen=1
 
 let g:NERDTreeGitStatusWithFlags = 1
 
@@ -160,8 +140,8 @@ map <C-c> :bd<CR>
 nmap gt :YcmCompleter GoTo<CR>
 
 
-nmap <C-w> :w<CR>
-imap <C-w> <ESC>:w<CR>
+nmap <C-w> :up<CR>
+imap <C-w> <ESC>:up<CR>
 
 nmap <C-s> :bd<CR>
 imap <C-s> <ESC>:bd<CR>
@@ -177,6 +157,9 @@ imap <C-v> <Esc>:set paste<CR>:r !pbpaste<CR>:set nopaste<CR>
 nmap <C-c> :.w !pbcopy<CR><CR>
 vmap <C-c> :w !pbcopy<CR><CR>
 
+let g:ycm_server_log_level = 'debug'
+let g:ycm_server_keep_logfiles = 1
+
 let g:pyflakes_prefer_python_version = 3
 let g:pymode_python = 'python3'
 
@@ -189,11 +172,30 @@ let g:mkdp_command_for_global = 1
 let g:mkdp_echo_preview_url = 1
 let g:mkdp_filetypes = ['markdown', 'md']
 
-
-" NerdTree
-let g:NERDTreeWinPos = "right"
-let NERDTreeQuitOnOpen=1
-
+" COC
+" inoremap <silent><expr> <TAB>
+"       \ pumvisible() ? "\<C-n>" :
+"       \ <SID>check_back_space() ? "\<TAB>" :
+"       \ coc#refresh()
+" inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+"
+" function! s:check_back_space() abort
+"   let col = col('.') - 1
+"   return !col || getline('.')[col - 1]  =~# '\s'
+" endfunction
+"
+" " Use <c-space> to trigger completion.
+" if has('nvim')
+"   inoremap <silent><expr> <S-space> coc#refresh()
+" else
+"   inoremap <silent><expr> <S-@> coc#refresh()
+" endif
+"
+" nmap <silent> gd <Plug>(coc-definition)
+" nmap <silent> gy <Plug>(coc-type-definition)
+" nmap <silent> gi <Plug>(coc-implementation)
+" nmap <silent> gr <Plug>(coc-references)
+"
 " Powerline
 let g:Powerline_symbols = 'fancy'
 

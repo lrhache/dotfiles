@@ -1,4 +1,3 @@
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 bindkey -v
 
 export PATH="/usr/local/sbin:$PATH"
@@ -52,12 +51,53 @@ alias pydeactivate="pyenv deactivate"
 alias pydefaults="vi $(pyenv root)/default-packages"
 alias pylist="pyenv virtualenvs"
 alias pylocal="pyenv local $@"
+alias pyinstall="pyenv install $@"
+alias pyremove="pyenv virtualenv-delete $@"
+
+function newenv() {
+    if [[ -z "$2" ]]; then
+      version='3.9.2'
+      name=$1
+    else
+      version=$1
+      name=$2
+    fi
+
+    pycreate $version $name
+    pyuse $name
+    pylocal $name
+
+    jsinit
+}
+
+function jsinit() {
+  echo '{"esversion": 6}' > ./.jshintrc
+
+  ternproject=$(cat <<-END
+{
+  "plugins": {
+    "node": {},
+    "es_modules": {}
+  },
+  "libs": [
+    "ecma5",
+    "ecma6"
+  ],
+  "ecmaVersion": 6
+}
+END
+)
+  echo $ternproject > ./.tern-project
+}
+
 
 alias gsetproject="gcloud config set project $@"
 alias gsetzone="gcloud config set compute/zone $@"
-
 alias ghelp="cat ~/.gcp-help"
 
 source /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc
 source /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc
+
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
