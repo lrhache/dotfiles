@@ -34,13 +34,19 @@ Plug 'Valloric/YouCompleteMe'
 " Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 
-Plug 'scrooloose/syntastic'
 Plug 'altercation/vim-colors-solarized'
 Plug 'Lokaltog/powerline'
 Plug 'scrooloose/nerdtree'
+
+Plug 'python-mode/python-mode'
 Plug 'jmcantrell/vim-virtualenv'
 Plug 'hynek/vim-python-pep8-indent'
-Plug 'python-mode/python-mode'
+Plug 'scrooloose/syntastic'
+Plug 'Integralist/vim-mypy'
+
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'deoplete-plugins/deoplete-jedi'
+
 Plug 'bling/vim-airline'
 Plug 'sheerun/vim-polyglot'
 
@@ -53,11 +59,6 @@ Plug 'walm/jshint.vim'
 
 Plug 'alvan/vim-closetag'
 Plug 'tpope/vim-surround'
-
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'deoplete-plugins/deoplete-jedi'
-" Plug 'davidhalter/jedi-vim'
-Plug 'Integralist/vim-mypy'
 
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 
@@ -163,6 +164,10 @@ let g:ycm_server_keep_logfiles = 1
 let g:pyflakes_prefer_python_version = 3
 let g:pymode_python = 'python3'
 
+let g:pymode_options_max_line_length = 120  " Avoid getting useless pep8 errors for long strings
+let g:pymode_lint_options_pep8 = {'max_line_length': g:pymode_options_max_line_length}
+let g:pymode_options_colorcolumn = 1
+
 let g:syntastic_python_checkers = ['flake8']
 let g:syntastic_javascript_checkers = ['jshint']
 
@@ -172,30 +177,6 @@ let g:mkdp_command_for_global = 1
 let g:mkdp_echo_preview_url = 1
 let g:mkdp_filetypes = ['markdown', 'md']
 
-" COC
-" inoremap <silent><expr> <TAB>
-"       \ pumvisible() ? "\<C-n>" :
-"       \ <SID>check_back_space() ? "\<TAB>" :
-"       \ coc#refresh()
-" inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-"
-" function! s:check_back_space() abort
-"   let col = col('.') - 1
-"   return !col || getline('.')[col - 1]  =~# '\s'
-" endfunction
-"
-" " Use <c-space> to trigger completion.
-" if has('nvim')
-"   inoremap <silent><expr> <S-space> coc#refresh()
-" else
-"   inoremap <silent><expr> <S-@> coc#refresh()
-" endif
-"
-" nmap <silent> gd <Plug>(coc-definition)
-" nmap <silent> gy <Plug>(coc-type-definition)
-" nmap <silent> gi <Plug>(coc-implementation)
-" nmap <silent> gr <Plug>(coc-references)
-"
 " Powerline
 let g:Powerline_symbols = 'fancy'
 
@@ -236,12 +217,23 @@ autocmd FileType python setlocal tabstop=4           " use 4 spaces to represent
 autocmd FileType python setlocal softtabstop=4
 autocmd FileType python setlocal shiftwidth=4        " number of spaces to use for auto indent
 
-set autoindent          " copy indent from current line when starting a new line
+autocmd FileType go setlocal tabstop=4           " use 4 spaces to represent tab
+autocmd FileType go setlocal softtabstop=4
+autocmd FileType go setlocal shiftwidth=4        " number of spaces to use for auto indent
+
+set autoindent  " copy indent from current line when starting a new line
+
+" Fold at indent but not on open
+set foldmethod=indent
+set foldlevelstart=99
+
+" Auto-comment new lines
+set formatoptions+=r
 
 " make backspaces more powerfull
 set backspace=indent,eol,start
 
-set ruler                           " show line and column number
+set ruler         " show line and column number
 syntax on   			" syntax highlighting
 set showcmd 			" show (partial) command in status line
 set cc=88
