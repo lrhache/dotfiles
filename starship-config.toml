@@ -1,4 +1,5 @@
 # https://github.com/starship/starship/tree/master/src/configs
+# https://gist.github.com/ryo-ARAKI/48a11585299f9032fa4bda60c9bba593
 #
 
 format = """
@@ -18,15 +19,15 @@ $character"""
 
 [git_status]
 conflicted = "Conflicted"
-ahead = "A:${count}"
-behind = "B:${count}"
-diverged = "D:${ahead_count} ${behind_count}"
+ahead = "H+${count} "
+behind = "H-${count} "
+# diverged = "D:${ahead_count} ${behind_count} "
 # untracked = "🛤️×${count}"
 stashed = "Stashed "
-modified = "M:${count}"
-staged = "S:${count}"
-# renamed = "📛×${count}"
-# deleted = "🗑️×${count}"
+modified = "M:${count} "
+staged = "S:${count} "
+renamed = "R:${count}"
+deleted = "D:${count}"
 style = "bright-white"
 format = "$all_status$ahead_behind"
 
