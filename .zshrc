@@ -4,15 +4,15 @@ eval "$(starship init zsh)"
 bindkey -v
 
 export PATH="/usr/local/sbin:$PATH"
+export PATH="/usr/local/bin:$PATH"
 export PATH="/usr/local/opt/openjdk/bin:$PATH"
-export PATH="/usr/local/Cellar/python@3.9/3.9.2_2/Frameworks/Python.framework/Versions/3.9/bin:$PATH"
-export PATH="/usr/local/opt/python@3.9/libexec/bin:$PATH"
 export PATH="/usr/local/opt/luajit-openresty/bin:$PATH"
 
 # iexport CPPFLAGS="-I/usr/local/opt/openjdk/include"
 
 export LDFLAGS="-L/usr/local/opt/luajit-openresty/lib"
 export CPPFLAGS="-I/usr/local/opt/luajit-openresty/include"
+# export CPPFLAGS="-I/usr/local/opt/openjdk/include"
 export PKG_CONFIG_PATH="/usr/local/opt/luajit-openresty/lib/pkgconfig"
 
 export STARSHIP_CONFIG=~/dotfiles/starship-config.toml
@@ -20,10 +20,6 @@ export STARSHIP_CONFIG=~/dotfiles/starship-config.toml
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-if command -v pyenv 1>/dev/null 2>&1; then
-  eval "$(pyenv init -)"
-fi
 
 [[ -s /Users/lrhache/.autojump/etc/profile.d/autojump.sh ]] && source /Users/lrhache/.autojump/etc/profile.d/autojump.sh
 
@@ -36,7 +32,9 @@ alias reload="exec $SHELL"
 alias ll="ls -al"
 alias vi=/usr/local/bin/nvim
 
-alias python=`which python3`
+#alias python=`which python3`
+alias python="/usr/local/opt/python@3.9/libexec/bin/python"
+alias pip="/usr/local/opt/python@3.9/libexec/bin/pip"
 alias flake8=`pyenv which flake8`
 
 export PYENV_ROOT="$HOME/.pyenv"
@@ -59,7 +57,7 @@ alias pyremove="pyenv virtualenv-delete $@"
 
 function newenv() {
     if [[ -z "$2" ]]; then
-      version='3.9.2'
+      version='3.9.4'
       name=$1
     else
       version=$1
