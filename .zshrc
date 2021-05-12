@@ -1,3 +1,4 @@
+eval "$(starship init zsh)"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 bindkey -v
 
@@ -13,7 +14,7 @@ export LDFLAGS="-L/usr/local/opt/luajit-openresty/lib"
 export CPPFLAGS="-I/usr/local/opt/luajit-openresty/include"
 export PKG_CONFIG_PATH="/usr/local/opt/luajit-openresty/lib/pkgconfig"
 
-
+export STARSHIP_CONFIG=~/dotfiles/starship-config.toml
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
@@ -32,8 +33,8 @@ fi
 alias reload="exec $SHELL"
 
 alias ll="ls -al"
-# alias vi=/Applications/MacVim.app/Contents/bin/vim
 alias vi=/usr/local/bin/nvim
+
 alias python=`which python3`
 alias flake8=`pyenv which flake8`
 
@@ -92,6 +93,9 @@ END
 }
 
 
+alias f=fzf-file-widget
+alias h=fzf-history-widget
+
 alias gsetproject="gcloud config set project $@"
 alias gsetzone="gcloud config set compute/zone $@"
 alias ghelp="cat ~/.gcp-help"
@@ -99,5 +103,8 @@ alias ghelp="cat ~/.gcp-help"
 source /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc
 source /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc
 
+
+source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 

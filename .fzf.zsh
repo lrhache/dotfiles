@@ -12,8 +12,5 @@ fi
 # ------------
 source "/usr/local/opt/fzf/shell/key-bindings.zsh"
 
-
-bindkey "^p" fzf-history-widget
-bindkey "^n" fzf-file-widget
-
-alias h="fzf-history-widget"
+bindkey -a "^P" fzf-history-widget
+bindkey -a "^n" fzf-file-widget
