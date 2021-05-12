@@ -18,12 +18,12 @@ $shell\
 $character"""
 
 [git_status]
-conflicted = "Conflicted"
+conflicted = "(c) "
 ahead = "H+${count} "
 behind = "H-${count} "
 # diverged = "D:${ahead_count} ${behind_count} "
 # untracked = "🛤️×${count}"
-# stashed = "Stashed "
+stashed = "(s) "
 modified = "M:${count} "
 staged = "S:${count} "
 renamed = "R:${count}"
