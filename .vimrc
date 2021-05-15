@@ -1,15 +1,14 @@
 set shell=zsh
-set hidden
-" set spell
 set encoding=UTF-8
+set mouse=a
 
-filetype off                  " required
+let mapleader=" "
 
 " Note: skip initialization for vim-tiny or vim-small.
 if 0 | endif
 
 if &compatible
-  set nocompatible               " be improved
+  set nocompatible
 endif
 
 " Specify a directory for plugins
@@ -59,6 +58,7 @@ Plug 'walm/jshint.vim'
 
 Plug 'alvan/vim-closetag'
 Plug 'tpope/vim-surround'
+Plug 'vim-scripts/anwolib'
 
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 
@@ -70,7 +70,8 @@ Plug 'airblade/vim-gitgutter'
 call plug#end()
 
 
-filetype plugin indent on    " required
+filetype off
+filetype plugin indent on
 
 let g:deoplete#enable_at_startup = 1
 
@@ -164,11 +165,14 @@ let g:ycm_server_keep_logfiles = 1
 let g:pyflakes_prefer_python_version = 3
 let g:pymode_python = 'python3'
 
+let g:pymode_lint_ignore = "E501,W"
 let g:pymode_options_max_line_length = 120  " Avoid getting useless pep8 errors for long strings
 let g:pymode_lint_options_pep8 = {'max_line_length': g:pymode_options_max_line_length}
 let g:pymode_options_colorcolumn = 1
 
-let g:syntastic_python_checkers = ['flake8']
+let g:syntastic_python_flake8_args='--ignore=F821,E501,E902'
+" let g:syntastic_python_pylint_post_args = "--max-line-length=120"
+let g:syntastic_python_checkers = ['flake8', 'pylint']
 let g:syntastic_javascript_checkers = ['jshint']
 
 let g:mkdp_auto_start = 1
@@ -176,6 +180,9 @@ let g:mkdp_auto_close = 1
 let g:mkdp_command_for_global = 1
 let g:mkdp_echo_preview_url = 1
 let g:mkdp_filetypes = ['markdown', 'md']
+
+" shortcut for mypy
+nnoremap <silent> <leader>mp :!mypy % --ignore-missing-imports<CR>
 
 " Powerline
 let g:Powerline_symbols = 'fancy'
@@ -191,7 +198,7 @@ let g:ctrlp_show_hidden = 1
 " Disable preview window
 set completeopt-=preview
 
-" Enable php syntax check 
+" Enable php syntax check
 " let g:php_syntax_extensions_enabled = 1
 
 " Shortcut for json
@@ -203,11 +210,11 @@ au BufRead,BufNewFile *.c set noexpandtab
 au BufRead,BufNewFile *.h set noexpandtab
 au BufRead,BufNewFile Makefile* set noexpandtab
 
-" --------------------------------------------------------------------------------
-" configure editor with tabs and nice stuff...
-" --------------------------------------------------------------------------------
-set expandtab           " enter spaces when tab is pressed
+" hide buffer instead of having to save
+set hidden
 
+"set autoindent  " copy indent from current line when starting a new line
+set expandtab " enter spaces when tab is pressed
 set tabstop=2
 set softtabstop=2
 set shiftwidth=2
@@ -221,14 +228,13 @@ autocmd FileType go setlocal tabstop=4           " use 4 spaces to represent tab
 autocmd FileType go setlocal softtabstop=4
 autocmd FileType go setlocal shiftwidth=4        " number of spaces to use for auto indent
 
-set autoindent  " copy indent from current line when starting a new line
-
 " Fold at indent but not on open
 set foldmethod=indent
 set foldlevelstart=99
 
 " Auto-comment new lines
 set formatoptions+=r
+nnoremap <silent> <leader>c :TComment<CR>
 
 " make backspaces more powerfull
 set backspace=indent,eol,start
@@ -238,7 +244,13 @@ syntax on   			" syntax highlighting
 set showcmd 			" show (partial) command in status line
 set cc=88
 set number
+set relativenumber
+set scrolloff=8
 
+set ignorecase
+set smartcase
+set incsearch
+set nohlsearch
 
 autocmd FileType php setlocal omnifunc=phpcomplete_extended#CompletePHP
 autocmd Filetype json  inoremap <F5> :update<Bar>execute '!python -m json.tool'<CR>
@@ -248,7 +260,40 @@ autocmd FileType css noremap <buffer> <c-f> :call CSSBeautify()<cr>
 autocmd Filetype javascript setlocal ts=2 sts=2 sw=2
 autocmd Filetype jade setlocal ts=2 sts=2 sw=2
 
-" support clipboard copy/paste when over ssh
-" vmap "+y :!xclip -f -sel clip
-" map "+p :r!xclip -o -sel clip
-"
+" window split
+set splitbelow splitright
+
+nnoremap <leader>sv :vsp<CR>
+nnoremap <leader>sh :sp<CR>
+
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+
+nnoremap <silent> <leader><Left> :vertical resize +3<CR>
+nnoremap <silent> <leader><Right> :vertical resize -3<CR>
+nnoremap <silent> <leader><Up> :resize +3<CR>
+nnoremap <silent> <leader><Down> :resize -3<CR>
+
+" vim terminal
+nnoremap <silent> <leader>t :vnew term://zsh<CR>
+
+" refresh vim config
+nnoremap <silent> <leader>so :so $MYVIMRC<CR>
+
+" quit
+nnoremap <silent> <leader>q :q<CR>
+
+" remove trailing whitespace on save
+autocmd BufWritePre * KeepView %s/\s\+$//e
+
+" remove empty lines at end of files
+autocmd FileType python autocmd BufWritePre <buffer> KeepView %s/\($\n\s*\)\+\%$//e
+
+" replace 3+ empty lines with 2 lines from python files
+autocmd FileType python autocmd BufWritePre <buffer> KeepView %s/\n\{3,}/\r\r\r/e
+
+" spelling settings
+autocmd FileType markdown setlocal spell spelllang=en_us
+nnoremap <leader>s :setlocal spell! spelllang=en_us<CR>
