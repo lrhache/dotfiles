@@ -1,7 +1,10 @@
 eval "$(starship init zsh)"
+fpath+=~/.zfunc
+
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 bindkey -v
+
 
 export JAVA_HOME="/Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home/"
 
@@ -10,6 +13,7 @@ export PATH="/usr/local/bin:$PATH"
 #export PATH="/usr/local/opt/openjdk/bin:$PATH"
 export PATH="/usr/local/opt/luajit-openresty/bin:$PATH"
 export PATH=$JAVA_HOME/bin:$PATH
+export PATH=$HOME/.poetry/bin:$PATH
 
 export LDFLAGS="-L/usr/local/opt/luajit-openresty/lib"
 export CPPFLAGS="-I/usr/local/opt/luajit-openresty/include"
@@ -109,6 +113,10 @@ function mko() {
   cd ${*: -1}
 }
 
+function export_all() {
+  set -a; source $1; set +a;
+}
+
 alias rowcount="wc -l < $@"
 
 alias f=fzf-file-widget
@@ -128,4 +136,5 @@ source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 [ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
 [[ -s /Users/lrhache/.autojump/etc/profile.d/autojump.sh ]] && source /Users/lrhache/.autojump/etc/profile.d/autojump.sh
 
-[ -s "~/.envvars" ] && \. ~/.envvars
+[[ -s ~/.envvars ]] && source ~/.envvars
+

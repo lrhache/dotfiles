@@ -61,11 +61,23 @@ Plug 'tpope/vim-surround'
 Plug 'vim-scripts/anwolib'
 
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
+Plug 'cespare/vim-toml'
+Plug 'Rykka/riv.vim'
+Plug 'Rykka/InstantRst'
 
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'ryanoasis/vim-devicons'
 Plug 'airblade/vim-gitgutter'
+
+Plug 'nvim-treesitter/playground'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+
+Plug 'nvim-lua/popup.nvim'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
+Plug 'nvim-telescope/telescope-fzy-native.nvim'
+
 
 call plug#end()
 
@@ -78,6 +90,21 @@ let g:deoplete#enable_at_startup = 1
 syntax enable
 set background=dark
 colorscheme gruvbox
+
+" Find files using Telescope command-line sugar.
+nnoremap <leader>ff <cmd>Telescope find_files<cr>
+nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+nnoremap <leader>fb <cmd>Telescope buffers<cr>
+nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+
+nnoremap <leader>g :lua require('telescope.builtin').grep_string({ search = vim.fn.input("Grep For >")})<CR>
+
+nnoremap <leader>gb <cmd>Telescope git_branches<cr>
+nnoremap <leader>gc <cmd>Telescope git_commits<cr>
+nnoremap <leader>gs <cmd>Telescope git_stash<cr>
+
+" https://github.com/nvim-telescope/telescope.nvim/issues/161
+autocmd FileType TelescopePrompt call deoplete#custom#buffer_option('auto_complete', v:false)
 
 " NerdTree
 let g:NERDTreeWinPos = "right"
@@ -121,14 +148,9 @@ endfunction
 " open NERDTree with ctrl + n
 nmap <C-n> :call ToggleTree()<CR>
 
-" Move around in panes
-nnoremap <C-J> <C-W><C-J>
-nnoremap <C-K> <C-W><C-K>
-nnoremap <C-L> <C-W><C-L>
-nnoremap <C-H> <C-W><C-H>
-
 " Save shortcut
 " map <C-w> :w<CR>
+"
 
 " Use tab to switch buffers
 map <Tab> :bnext<cr>
@@ -139,11 +161,12 @@ map <C-c> :bd<CR>
 "map <C-c> ! :bd!<CR>
 
 " Use Control to go the method declaration
-nmap gt :YcmCompleter GoTo<CR>
+nmap gd :YcmCompleter GoTo<CR>
 
 
 nmap <C-w> :up<CR>
 imap <C-w> <ESC>:up<CR>
+nnoremap <silent> <leader>w <esc>:up<CR>
 
 nmap <C-s> :bd<CR>
 imap <C-s> <ESC>:bd<CR>
@@ -158,6 +181,7 @@ nmap <C-v> :set paste<CR>:r !pbpaste<CR>:set nopaste<CR>
 imap <C-v> <Esc>:set paste<CR>:r !pbpaste<CR>:set nopaste<CR>
 nmap <C-c> :.w !pbcopy<CR><CR>
 vmap <C-c> :w !pbcopy<CR><CR>
+tnoremap <C-c> <C-c>
 
 let g:ycm_server_log_level = 'debug'
 let g:ycm_server_keep_logfiles = 1
@@ -196,7 +220,7 @@ set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc
 let g:ctrlp_show_hidden = 1
 
 " Disable preview window
-set completeopt-=preview
+" set completeopt-=preview
 
 " Enable php syntax check
 " let g:php_syntax_extensions_enabled = 1
@@ -227,6 +251,9 @@ autocmd FileType python setlocal shiftwidth=4        " number of spaces to use f
 autocmd FileType go setlocal tabstop=4           " use 4 spaces to represent tab
 autocmd FileType go setlocal softtabstop=4
 autocmd FileType go setlocal shiftwidth=4        " number of spaces to use for auto indent
+
+autocmd BufRead,BufNewFile *.md setlocal textwidth=80
+
 
 " Fold at indent but not on open
 set foldmethod=indent
@@ -271,6 +298,11 @@ nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 
+tnoremap <C-h> <C-\><C-n><C-w>h
+tnoremap <C-j> <C-\><C-n><C-w>j
+tnoremap <C-k> <C-\><C-n><C-w>k
+tnoremap <C-l> <C-\><C-n><C-w>l
+
 nnoremap <silent> <leader><Left> :vertical resize +3<CR>
 nnoremap <silent> <leader><Right> :vertical resize -3<CR>
 nnoremap <silent> <leader><Up> :resize +3<CR>
@@ -297,3 +329,13 @@ autocmd FileType python autocmd BufWritePre <buffer> KeepView %s/\n\{3,}/\r\r\r/
 " spelling settings
 autocmd FileType markdown setlocal spell spelllang=en_us
 nnoremap <leader>s :setlocal spell! spelllang=en_us<CR>
+
+" Quickfix shortcuts
+nnoremap <silent> <leader>kf :copen<CR>
+nnoremap <silent> <leader>kc :ccl<CR>
+
+
+" file + line number
+nnoremap <leader>ln :echom expand("%:h") . '/' . expand("%:t") . ':' . line(".")<cr>
+
+lua require('telescope-custom')
