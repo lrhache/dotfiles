@@ -41,6 +41,7 @@ export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 
 if command -v pyenv 1>/dev/null 2>&1; then
+  eval "$(pyenv init --path)"
   eval "$(pyenv init -)"
 fi
 eval "$(pyenv virtualenv-init -)"
@@ -117,6 +118,10 @@ function export_all() {
   set -a; source $1; set +a;
 }
 
+function json() {
+  awk "NR>=$1 && NR<=$2" $3 | jq
+}
+
 alias rowcount="wc -l < $@"
 
 alias f=fzf-file-widget
@@ -126,11 +131,32 @@ alias gsetproject="gcloud config set project $@"
 alias gsetzone="gcloud config set compute/zone $@"
 alias ghelp="cat ~/.gcp-help"
 
+alias codeartifact="aws codeartifact login --tool pip --repository allpdl --domain pdl --domain-owner 556708831556"
+
 source /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc
 source /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc
 
 source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+git_branch_name() {
+  branch=$(git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/*\(.*\)/\1/' | xargs)
+  echo $branch
+}
+
+ggpo() {
+  branch=$(git_branch_name)
+  git push -u origin $branch
+}
+
+alias ggs="git status"
+alias ggc="git checkout"
+alias ggb="git checkout -b"
+alias gga="git add"
+alias ggad="git add ."
+alias ggm="git commit -m $@"
+alias ggbd="git branch -D $@"
+alias ggbs="git branch"
 
 # AutoJump config
 [ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
