@@ -24,18 +24,19 @@ Plug 'morhetz/gruvbox'
 Plug 'romainl/vim-cool'
 
 Plug 'tpope/vim-fugitive'
-Plug 'kien/ctrlp.vim'
+Plug 'ctrlpvim/ctrlp.vim'
 Plug 'tpope/vim-repeat'
 Plug 'sjl/gundo.vim'
 Plug 'fs111/pydoc.vim'
-Plug 'wincent/Command-T'
+" Plug 'wincent/Command-T'
 Plug 'Valloric/YouCompleteMe'
 " Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 
 Plug 'altercation/vim-colors-solarized'
 Plug 'Lokaltog/powerline'
-Plug 'scrooloose/nerdtree'
+" Plug 'scrooloose/nerdtree'
+Plug 'preservim/nerdtree'
 
 Plug 'python-mode/python-mode'
 Plug 'jmcantrell/vim-virtualenv'
@@ -66,7 +67,8 @@ Plug 'Rykka/riv.vim'
 Plug 'Rykka/InstantRst'
 
 Plug 'Xuyuanp/nerdtree-git-plugin'
-Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+" Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+Plug 'johnstef99/vim-nerdtree-syntax-highlight'
 Plug 'ryanoasis/vim-devicons'
 Plug 'airblade/vim-gitgutter'
 
@@ -85,7 +87,11 @@ call plug#end()
 filetype off
 filetype plugin indent on
 
-let g:deoplete#enable_at_startup = 1
+" let g:deoplete#enable_at_startup = 1
+" let g:python3_host_prog  = '/opt/homebrew/opt/python@3.10/libexec/bin/python'
+let g:python3_host_prog  = '/opt/homebrew/bin/python3.11'
+" set runtimepath+=~/.vim/bundle/deoplete.nvim/
+
 
 syntax enable
 set background=dark
@@ -146,7 +152,7 @@ function! ToggleTree()
 endfunction
 
 " open NERDTree with ctrl + n
-nmap <C-n> :call ToggleTree()<CR>
+nmap <silent> <C-n> :call ToggleTree()<CR>
 
 " Save shortcut
 " map <C-w> :w<CR>
@@ -204,6 +210,11 @@ let g:mkdp_auto_close = 1
 let g:mkdp_command_for_global = 1
 let g:mkdp_echo_preview_url = 1
 let g:mkdp_filetypes = ['markdown', 'md']
+
+" let g:CommandTPreferredImplementation='lua'
+
+let g:loaded_perl_provider = 0
+let g:loaded_ruby_provider = 0
 
 " shortcut for mypy
 nnoremap <silent> <leader>mp :!mypy % --ignore-missing-imports<CR>
@@ -311,6 +322,10 @@ nnoremap <silent> <leader><Down> :resize -3<CR>
 " vim terminal
 nnoremap <silent> <leader>t :vnew term://zsh<CR>
 
+let &t_8f = "\<Esc>[38:2:%lu:%lu:%lum"
+let &t_8b = "\<Esc>[48:2:%lu:%lu:%lum"
+set termguicolors
+
 " refresh vim config
 nnoremap <silent> <leader>so :so $MYVIMRC<CR>
 
@@ -328,7 +343,7 @@ autocmd FileType python autocmd BufWritePre <buffer> KeepView %s/\n\{3,}/\r\r\r/
 
 " spelling settings
 autocmd FileType markdown setlocal spell spelllang=en_us
-nnoremap <leader>s :setlocal spell! spelllang=en_us<CR>
+nnoremap <silent> <leader>s :setlocal spell! spelllang=en_us<CR>
 
 " Quickfix shortcuts
 nnoremap <silent> <leader>kf :copen<CR>
@@ -337,5 +352,15 @@ nnoremap <silent> <leader>kc :ccl<CR>
 
 " file + line number
 nnoremap <leader>ln :echom expand("%:h") . '/' . expand("%:t") . ':' . line(".")<cr>
+
+function! ToggleVerbose()
+    if !&verbose
+        set verbosefile=~/.log/vim/verbose.log
+        set verbose=15
+    else
+        set verbose=0
+        set verbosefile=
+    endif
+endfunction
 
 lua require('telescope-custom')
