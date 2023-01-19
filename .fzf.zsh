@@ -1,16 +1,16 @@
 # Setup fzf
 # ---------
-if [[ ! "$PATH" == */opt/homebrew/opt/fzf/bin* ]]; then
-  PATH="${PATH:+${PATH}:}/opt/homebrew/opt/fzf/bin"
+if [[ ! "$PATH" == */usr/local/Cellar/fzf/0.36.0/bin* ]]; then
+  PATH="${PATH:+${PATH}:}/usr/local/Cellar/fzf/0.36.0/bin"
 fi
 
 # Auto-completion
 # ---------------
-[[ $- == *i* ]] && source "/opt/homebrew/opt/fzf/shell/completion.zsh" 2> /dev/null
+[[ $- == *i* ]] && source "/usr/local/Cellar/fzf/0.36.0/shell/completion.zsh" 2> /dev/null
 
 # Key bindings
 # ------------
-source "/opt/homebrew/opt/fzf/shell/key-bindings.zsh"
+source "/usr/local/Cellar/fzf/0.36.0/shell/key-bindings.zsh"
 
 bindkey -a "^P" fzf-history-widget
 bindkey -a "^n" fzf-file-widget

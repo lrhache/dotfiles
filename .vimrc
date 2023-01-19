@@ -20,6 +20,7 @@ set rtp+=/usr/local/opt/fzf
 Plug 'junegunn/fzf.vim'
 
 Plug 'morhetz/gruvbox'
+Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 
 Plug 'romainl/vim-cool'
 
@@ -362,6 +363,14 @@ function! ToggleVerbose()
         set verbosefile=
     endif
 endfunction
+
+let g:VM_maps = {}
+let g:VM_maps["Exit"]               = '<silent> <C-C>'   " quit VM
+let g:VM_maps['Find Under']         = '<silent> <C-k>'   " replace C-n
+let g:VM_maps['Find Subword Under'] = '<silent> <C-k>'   " replace visual C-n
+let g:VM_maps["Add Cursor Down"]    = '<silent> <M-j>'   " new cursor down
+let g:VM_maps["Add Cursor Up"]      = '<silent> <M-k>'   " new cursor up
+let g:VM_maps["Toggle Mappings"]    = '<silent> <CR>'    " toggle VM buffer mappings
 
 
 lua require('telescope-custom')
