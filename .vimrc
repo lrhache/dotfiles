@@ -89,7 +89,7 @@ filetype plugin indent on
 
 " let g:deoplete#enable_at_startup = 1
 " let g:python3_host_prog  = '/opt/homebrew/opt/python@3.10/libexec/bin/python'
-let g:python3_host_prog  = '/opt/homebrew/bin/python3.11'
+" let g:python3_host_prog  = '/opt/homebrew/bin/python3.11'
 " set runtimepath+=~/.vim/bundle/deoplete.nvim/
 
 
@@ -362,5 +362,6 @@ function! ToggleVerbose()
         set verbosefile=
     endif
 endfunction
+
 
 lua require('telescope-custom')
